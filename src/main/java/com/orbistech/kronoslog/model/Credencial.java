@@ -1,18 +1,17 @@
-package model;
+package com.orbistech.kronoslog.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "credenciales")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Credencial {
 
     @Id
@@ -20,16 +19,20 @@ public class Credencial {
     @Column(name = "id_credencial")
     private long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_empleado", nullable = false)
     private Empleado empleado;
 
-    @Column(name = "codigo_empleado", nullable = false, unique = true, length = 10)
-    private String codigoEmpledo;
+    @NotNull
+    @Size(max = 10)
+    @Column(name = "codigo_empleado", nullable = false, unique = true)
+    private String codigoEmpleado;
 
     @Column(name = "contrasenia", nullable = false)
     private String contrasenia;
 
+    @NotNull
+    @Email
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
@@ -37,23 +40,23 @@ public class Credencial {
     private String recuperacionToken;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-    @Column(name = "f_expiracion_token")
+    @Column(name = "fecha_expiracion_token")
     private LocalDateTime fechaExpiracionToken;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-    @Column(name = "f_registro")
+    @Column(name = "fecha_registro")
     private LocalDateTime fechaRegistro;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-    @Column(name = "f_modificacion")
+    @Column(name = "fecha_modificacion")
     private LocalDateTime fechaModificacion;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-    @Column(name = "f_ultimo_logeo")
+    @Column(name = "fecha_ultimo_logeo")
     private LocalDateTime fechaUltimoLogeo;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-    @Column(name = "f_modificacion_contrasenia")
+    @Column(name = "fecha_modificacion_contrasenia")
     private LocalDateTime fechaModificacionContrasenia;
 
     @Column(name = "intentos_fallidos")
@@ -62,11 +65,11 @@ public class Credencial {
     @Column(name = "responsable")
     private String responsable;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_rol", nullable = false)
     private Rol rol;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_estado", nullable = false)
     private Estado estado;
 }

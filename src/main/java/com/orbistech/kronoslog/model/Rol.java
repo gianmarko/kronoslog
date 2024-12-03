@@ -1,14 +1,12 @@
-package model;
+package com.orbistech.kronoslog.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "roles")
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
 public class Rol {
 
@@ -17,7 +15,7 @@ public class Rol {
     @Column(name = "id_rol")
     private long id;
 
-    @Column(name="nombre", nullable = false)
+    @Column(name="nombre", nullable = false, unique = true)
     private String nombreRol;
 
     @Column(name="descripcion")

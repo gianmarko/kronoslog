@@ -1,17 +1,15 @@
-package model;
+package com.orbistech.kronoslog.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "justificaciones")
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
 public class Justificacion {
 
@@ -20,40 +18,40 @@ public class Justificacion {
     @Column(name = "id_justificacion")
     private long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_asistencia", nullable = false)
     private Asistencia asistencia;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_empleado", nullable = false)
     private Empleado empleado;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-    @Column(name = "f_justificacion")
+    @Column(name = "fecha_justificacion",nullable = false)
     private LocalDateTime fechaJustificacion;
 
-    @Column(name = "motivo_justificacion")
-    private String motivoJustificacion;
+    @Column(name = "motivo", nullable = false)
+    private String motivo;
 
-    @Column(name = "estado_justificacion", nullable = false)
-    private String estadoJustificacion;
+    @Column(name = "estado", nullable = false)
+    private String estado;
 
-    @Column(name = "detalle_justificacion")
-    private String detalleJustificacion;
+    @Column(name = "detalle")
+    private String detalle;
 
-    @Column(name = "responsable_justificacion")
-    private String responsableJustificacion;
+    @Column(name = "responsable")
+    private String responsable;
 
     @Column(name = "documento")
     private String documento;
 
-    @Column(name = "observacion_justificacion")
-    private String observacionJustificacion;
+    @Column(name = "observaciones")
+    private String observaciones;
 
     @Column(name = "detalle_respuesta")
     private String detalleRespuesta;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-    @Column(name = "f_respuesta")
+    @Column(name = "fecha_respuesta")
     private LocalDateTime fechaRespuesta;
 }

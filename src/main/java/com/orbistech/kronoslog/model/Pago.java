@@ -1,17 +1,15 @@
-package model;
+package com.orbistech.kronoslog.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "pagos")
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
 public class Pago {
 
@@ -20,15 +18,15 @@ public class Pago {
     @Column(name = "id_pago")
     private long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_empleado", nullable = false)
     private Empleado empleado;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    @Column(name = "fecha_pago_realizado")
+    @Column(name = "fecha_pago_realizado", nullable = false)
     private LocalDate fechaPagoRealizado;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_sueldo", nullable = false)
     private Sueldo sueldo;
 
@@ -43,7 +41,7 @@ public class Pago {
     @Column(name = "periodo_fin")
     private LocalDate periodoFin;
 
-    @Column(name = "monto_regular")
+    @Column(name = "monto_regular", nullable = false)
     private double montoRegular;
 
     @Column(name = "monto_extra")
@@ -58,7 +56,7 @@ public class Pago {
     @Column(name = "monto_justificacion")
     private double montoJustificacion;
 
-    @Column(name = "monto_total")
+    @Column(name = "monto_total", nullable = false)
     private double montoTotal;
 
     @Column(name = "observaciones")

@@ -1,18 +1,17 @@
-package model;
+package com.orbistech.kronoslog.model;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "asistencias")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Asistencia {
 
     @Id
@@ -20,7 +19,7 @@ public class Asistencia {
     @Column(name = "id_asistencia")
     private long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_empleado", nullable = false)
     private Empleado empleado;
 
@@ -36,7 +35,7 @@ public class Asistencia {
     @Column(name = "registro_salida")
     private LocalTime registroSalida;
 
-    @Column(name = "asistencias")
+    @Column(name = "asistencias", nullable = false)
     private boolean asistencias;
 
     @Column(name = "tardanzas")

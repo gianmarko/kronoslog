@@ -1,18 +1,16 @@
-package model;
+package com.orbistech.kronoslog.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalTime;
 import java.util.Set;
 
 @Entity
 @Table(name = "horarios")
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
 public class Horario {
 
@@ -21,17 +19,15 @@ public class Horario {
     @Column(name = "id_horario")
     private long id;
 
-    @ElementCollection(targetClass = Dia.class)
-    @CollectionTable(name = "dias_laborales", joinColumns = @JoinColumn(name = "id_horario"))
-    @Enumerated(EnumType.STRING)
-    private Set<Dia> diasLaborales;
+    @Column(name = "dias_laborales", nullable = false)
+    private String diasLaborales;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-    @Column(name = "h_inicio", nullable = false)
+    @Column(name = "hora_inicio", nullable = false)
     private LocalTime horaInicio;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-    @Column(name = "h_fin", nullable = false)
+    @Column(name = "hora_fin", nullable = false)
     private LocalTime horaFin;
 
     public enum Dia {

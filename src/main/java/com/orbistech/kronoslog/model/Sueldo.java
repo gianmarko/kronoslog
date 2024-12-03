@@ -1,17 +1,15 @@
-package model;
+package com.orbistech.kronoslog.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "sueldos")
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
 public class Sueldo {
 
@@ -20,16 +18,16 @@ public class Sueldo {
     @Column(name = "id_sueldo")
     private long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_empleado", nullable = false)
     private Empleado empleado;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    @Column(name = "fi_contrato")
+    @Column(name = "fecha_inicio_contrato", nullable = false)
     private LocalDate fechaInicioContrato;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    @Column(name = "fi_actividades")
+    @Column(name = "fecha_inicio_actividades", nullable = false)
     private LocalDate fechaInicioActividades;
 
     @Column(name = "ciclo_inicio")
@@ -38,16 +36,16 @@ public class Sueldo {
     @Column(name = "ciclo_fin")
     private int cicloFin;
 
-    @Column(name = "dia_pago")
+    @Column(name = "dia_pago", nullable = false)
     private int diaPago;
 
-    @Column(name = "p_hora_regular")
+    @Column(name = "precio_hora_regular")
     private double precioHoraRegular;
 
-    @Column(name = "p_hora_extra")
+    @Column(name = "precio_hora_extra")
     private double precioHoraExtra;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    @Column(name = "ff_contrato")
+    @Column(name = "fecha_fin_contrato", nullable = false)
     private LocalDate fechaFinContrato;
 }

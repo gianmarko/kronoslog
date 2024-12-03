@@ -1,18 +1,16 @@
-package model;
+package com.orbistech.kronoslog.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 
 @Entity
 @Table(name = "evaluaciones")
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
 public class Evaluacion {
 
@@ -21,20 +19,20 @@ public class Evaluacion {
     @Column(name = "id_evaluacion")
     private long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_empleado", nullable = false)
     private Empleado empleado;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    @Column(name = "fecha_evaluacion")
+    @Column(name = "fecha_evaluacion", nullable = false)
     private LocalDate fechaEvaluacion;
 
-    @Column(name = "puntaje")
+    @Column(name = "puntaje", nullable = false)
     private double puntaje;
 
-    @Column(name = "evaluador")
+    @Column(name = "evaluador",nullable = false)
     private String evaluador;
 
-    @Column(name = "obs_evaluacion")
-    private String observacionesEvaluacion;
+    @Column(name = "observaciones")
+    private String observaciones;
 }

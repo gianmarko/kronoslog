@@ -1,18 +1,17 @@
-package model;
+package com.orbistech.kronoslog.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "empleados")
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
 public class Empleado {
 
@@ -21,26 +20,36 @@ public class Empleado {
     @Column(name = "id_empleado")
     private long id;
 
+    @NotNull
     @Column(name = "nombres", nullable = false)
     private String nombres;
 
+    @NotNull
     @Column(name = "apellidos", nullable = false)
     private String apellidos;
 
-    @Column(name = "dni", nullable = false, unique = true, length = 8)
+    @NotNull
+    @Size(min = 8, max = 8)
+    @Column(name = "dni", nullable = false, unique = true)
     private String dni;
 
-    @Column(name = "codigo_empleado", nullable = false, unique = true, length = 10)
+    @NotNull
+    @Size(max = 10)
+    @Column(name = "codigo_empleado", nullable = false, unique = true)
     private String codigoEmpleado;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    @Column(name = "f_nacimiento")
+    @Column(name = "fecha_nacimiento")
     private LocalDate fechaNacimiento;
 
+    @NotNull
+    @Email
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "celular", nullable = false, unique = true, length = 9)
+    @NotNull
+    @Size(min = 9, max = 9)
+    @Column(name = "celular",nullable = false, unique = true)
     private String celular;
 
     @Column(name = "direccion")
@@ -59,22 +68,22 @@ public class Empleado {
     private String responsable;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-    @Column(name = "f_registro")
+    @Column(name = "fecha_registro")
     private LocalDateTime fechaRegistro;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-    @Column(name = "f_modificacion")
+    @Column(name = "fecha_modificacion")
     private LocalDateTime fechaModificacion;
 
     @ManyToOne
     @JoinColumn(name = "id_rol", nullable = false)
     private Rol rol;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_estado", nullable = false)
     private Estado estado;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_horario", nullable = false)
     private Horario horario;
 }
