@@ -1,10 +1,12 @@
 package com.orbistech.kronoslog.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.orbistech.kronoslog.dto.EmpleadoDTO;
 import lombok.*;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -49,7 +51,7 @@ public class Empleado {
 
     @NotNull
     @Size(min = 9, max = 9)
-    @Column(name = "celular",nullable = false, unique = true)
+    @Column(name = "celular", nullable = false, unique = true)
     private String celular;
 
     @Column(name = "direccion")
@@ -79,11 +81,23 @@ public class Empleado {
     @JoinColumn(name = "id_rol", nullable = false)
     private Rol rol;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_estado", nullable = false)
     private Estado estado;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_horario", nullable = false)
     private Horario horario;
+
+    public EmpleadoDTO toDTO() {
+        EmpleadoDTO dto = new EmpleadoDTO();
+        dto.setId(this.id);
+        dto.setNombres(this.nombres);
+        dto.setApellidos(this.apellidos);
+        dto.setEstadoNombre(this.estado != null ? this.estado.getNombreEstado() : null);
+        dto.setHorarioDescripcion(this.horario != null ? this.horario.getDiasLaborales() : null);
+        return dto;
+    }
 }
